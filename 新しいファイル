@@ -1,0 +1,10 @@
+<?php
+require("lib.php");
+
+$name = $_POST["name"];
+$name = $_POST["message"];
+
+$chat = new ChatAPI();
+$chat->set($name,$message);
+
+

@@ -1,7 +1,15 @@
 
 <?php
 
-	setcookie("uname", $_GET["uname"], time()+(60*60*24*7))
+	setcookie("id", $_POST["id"], time()+(60*60*24*7));
+
+
+
+	$id = $_POST["id"];
+
+	$pw = $_POST["pw"];
+
+
 
 ?><!DOCTYPE html>
 
@@ -77,69 +85,123 @@
 
 window.onload = function(){
 
-  getLog();
+  auth();
 
-	
+
+
+  getLog();
 
   document.querySelector("#sbmt").addEventListener("click",function(){
 
-    var uname = document.querySelector("#uname").value;
+      var uname = document.querySelector("#uname").value;
 
-    var msg   = document.querySelector("#msg").value;
-
-
-
-    var request = new XMLHttpRequest();
-
-    request.open('POST', 'http://127.0.0.1/chat2/set.php', false);
-
-    request.onreadystatechange = function(){
-
-		if (request.status === 200 || request.status === 304 ) {
-
-			var response = request.responseText;
-
-			var json     = JSON.parse(response);
-
-		    if( json["status"] ){
-
-		    	getLog();
-
-		    }
-
-		    else{
-
-		    	alert("書き込みに失敗したよ");
-
-		    }
-
-		}
-
-		else if(request.status >= 500){
-
-			alert("ServerError");
-
-		}
-
-	};
+      var msg   = document.querySelector("#msg").value;
 
 
 
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      var request = new XMLHttpRequest();
+
+        request.open('POST', 'http://127.0.0.1/chat2/set.php', false);
+
+        request.onreadystatechange = function(){
+
+		   if (request.status === 200 || request.status === 304 ) {
+
+			  var response = request.responseText;
+
+			  var json     = JSON.parse(response);
+
+			
+
+		  	  if( json["head"]["status"] === false ){
+
+				alert("失敗しました");
+
+				return(false);	
+
+			  }
 
 
 
-    request.send(
+		     getLog();
 
-    	  "uname=" + encodeURIComponent(uname) + "&"
+		   }
 
-    	+ "msg="   + encodeURIComponent(msg)
+		  else if(request.status >= 500){
 
-    );
+			 alert("ServerError");
 
-  })
+		  }
+
+	    };
+
+
+
+       request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+
+
+       request.send(
+
+    	    "uname=" + encodeURIComponent(uname) + "&"
+
+    	  + "msg="   + encodeURIComponent(msg)
+
+        );
+
+    });
 
 };
+
+
+
+function auth(){
+
+  var request = new XMLHttpRequest();
+
+  request.open('POST', 'http://127.0.0.1/chat2/auth.php', false);
+
+  request.onreadystatechange = function(){
+
+    if (request.status === 200 || request.status === 304 ) {
+
+      var response = request.responseText;
+
+      var json     = JSON.parse(response);
+
+      
+
+      if( json["head"]["status"] === false ){
+
+         alert("ログインに失敗しました");
+
+         location.href = "/chat2/";
+
+       }
+
+      else{
+
+         alert("ログインに成功しました");
+
+       }
+
+     }
+
+   };
+
+
+
+  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  request.send(
+
+    	  "id=" + encodeURIComponent("<?php echo $id; ?>") + "&"
+
+    	+ "pw=" + encodeURIComponent("<?php echo $pw; ?>")
+
+  );
+
+}
 
 
 
@@ -159,13 +221,23 @@ function getLog(){
 
 			var json     = JSON.parse(response);
 
+			
+
+			if( json["head"]["status"] === false ){
+
+				alert("失敗しました");
+
+				return(false);	
+
+			}
+
 		
 
 			var html="";
 
-			for(i=0; i<json.length; i++){
+			for(i=0; i<json["body"].length; i++){
 
-				html += json[i]["name"] +":"+ json[i]["message"] + "<br>";
+				html += json["body"][i]["name"] +":"+ json["body"][i]["message"] + "<br>";
 
 			}
 
