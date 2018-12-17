@@ -1,0 +1,6 @@
+	http://php.net/manual/ja/
+	/etc/opt/remi/php71/php.ini
+	/etc/opt/remi/php71/php.d
+	http://php.net/manual/ja/
+	/etc/opt/remi/php71/php.ini
+	/etc/opt/remi/php71/php.d
