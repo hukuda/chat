@@ -1,4 +1,3 @@
-
 <?php
 
 	setcookie("id", $_POST["id"], time()+(60*60*24*7));
@@ -40,7 +39,26 @@
 			margin-bottom: 15px;
 
 		}
+		
+		ancert{
 
+			border: 1px solid gray;
+
+			padding: 7px;
+
+			margin-bottom: 13px;
+           color: green;
+		}
+		
+		ancerttitle{
+
+			border: 1px solid gray;
+
+			padding: 10px;
+
+			margin-bottom: 13px;
+           color: black;
+		}
 		.timestamp{
 
 			color: lightgray;
@@ -54,8 +72,6 @@
 </head>
 
 <body>
-
-
 
 <h1>秘密のチャット</h1>
 
@@ -74,8 +90,12 @@
 	<button type="button" id="sbmt">送信</button>
 
 </form>
+<ancert>
+<ancerttitle>好きな果物はどっち？</ancerttitle>
+<input type="radio" name="men" value="one">りんご
+<input type="radio" name="men" value="two" checked>みかん
 
-
+</ancert>
 
 <div id="chatlog"></div>
 

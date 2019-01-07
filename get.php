@@ -1,3 +1,4 @@
+
 <?php
 
 require("lib.php");
@@ -17,3 +18,5 @@ else{
 	$chat->get();
 
 }
+
+
